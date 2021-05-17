@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.partial">
+    package="com.example.proiecttppa">
 
     <application
         android:allowBackup="true"
@@ -16,6 +16,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".AlarmActivity">
+        </activity>
+        <activity android:name=".AlarmSchedulerActivity"/>
+        <activity android:name=".AlarmCreateActivity"/>
+        <receiver android:name="AlarmReceiver">
+            <intent-filter>
+                <action android:name="com.example.helloandroid.alarms" />
+            </intent-filter>
+        </receiver>
     </application>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
 </manifest>

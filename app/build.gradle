@@ -5,7 +5,7 @@ android {
     buildToolsVersion "30.0.0"
 
     defaultConfig {
-        applicationId "com.example.partial"
+        applicationId "com.example.proiecttppa"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
