@@ -1,6 +1,7 @@
-package com.example.proiecttppa;
+package com.example.proiecttppa.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.ListView;
 
 import androidx.annotation.Nullable;
 
+import com.example.proiecttppa.AlarmAdapter;
+import com.example.proiecttppa.R;
 import com.example.proiecttppa.models.Alarm;
 
 import java.util.ArrayList;
@@ -18,6 +21,7 @@ public class AlarmSchedulerActivity extends Activity implements AdapterView.OnIt
     ListView listView;
     AlarmAdapter adapter;
 
+    int LAUNCH_CREATE_ACTIVITY = 123456;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,4 +47,26 @@ public class AlarmSchedulerActivity extends Activity implements AdapterView.OnIt
 //        intent.putExtra("id", id);
 //        startActivity(intent);
     }
+
+    public void createAlarm(View view) {
+        Intent myIntent = new Intent(AlarmSchedulerActivity.this, AlarmCreateActivity.class);
+        AlarmSchedulerActivity.this.startActivityForResult(myIntent, LAUNCH_CREATE_ACTIVITY);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == LAUNCH_CREATE_ACTIVITY) {
+            if (resultCode == Activity.RESULT_OK) {
+                String hour = data.getStringExtra("hour");
+                String minute = data.getStringExtra("minute");
+                String name = data.getStringExtra("name");
+                System.out.println("Scheduler received " + hour + ":" + minute + " with name "+name);
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                // Write your code if there's no result
+            }
+        }
+    } //onA
 }

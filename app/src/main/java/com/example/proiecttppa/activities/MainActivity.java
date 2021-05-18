@@ -1,4 +1,4 @@
-package com.example.proiecttppa;
+package com.example.proiecttppa.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -10,14 +10,14 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.media.AudioFormat;
-import android.media.AudioRecord;
-import android.media.MediaRecorder;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.PowerManager;
 import android.os.SystemClock;
 import android.view.View;
+
+import com.example.proiecttppa.AlarmReceiver;
+import com.example.proiecttppa.R;
+import com.example.proiecttppa.SoundMeter;
 
 import java.util.Calendar;
 import java.util.Timer;

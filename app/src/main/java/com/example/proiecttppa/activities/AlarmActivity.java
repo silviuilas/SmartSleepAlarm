@@ -1,8 +1,11 @@
-package com.example.proiecttppa;
+package com.example.proiecttppa.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+
+import com.example.proiecttppa.CustomAlarm;
+import com.example.proiecttppa.R;
 
 public class AlarmActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {

@@ -9,17 +9,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AlarmActivity">
+        <activity android:name=".activities.AlarmActivity">
         </activity>
-        <activity android:name=".AlarmSchedulerActivity"/>
-        <activity android:name=".AlarmCreateActivity"/>
+        <activity android:name=".activities.AlarmSchedulerActivity"/>
+        <activity android:name=".activities.AlarmCreateActivity"/>
         <receiver android:name="AlarmReceiver">
             <intent-filter>
                 <action android:name="com.example.helloandroid.alarms" />

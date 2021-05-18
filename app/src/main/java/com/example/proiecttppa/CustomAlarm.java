@@ -6,8 +6,6 @@ public class CustomAlarm {
     public Ringtone ringtone= null;
     private static CustomAlarm mInstance;
 
-    public int someValueIWantToKeep;
-
     protected CustomAlarm(){}
 
     public static synchronized CustomAlarm getInstance() {

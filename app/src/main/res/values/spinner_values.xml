@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string-array name="spinner_values">
-        <item>Plus</item>
-        <item>Minus</item>
-        <item>Inmultire</item>
-        <item>Inpartire</item>
-    </string-array>
-</resources>
