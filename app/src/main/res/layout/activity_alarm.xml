@@ -28,7 +28,7 @@
                 android:layout_marginBottom="20dp"
                 android:text="Alarm Name" />
             <TextView
-                android:id="@+id/alarmHour"
+                android:id="@+id/alarmValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/textColor"

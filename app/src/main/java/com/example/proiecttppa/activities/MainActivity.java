@@ -1,9 +1,5 @@
 package com.example.proiecttppa.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -15,9 +11,13 @@ import android.os.PowerManager;
 import android.os.SystemClock;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.example.proiecttppa.AlarmReceiver;
 import com.example.proiecttppa.R;
-import com.example.proiecttppa.SoundMeter;
+import com.example.proiecttppa.RecordInfo;
 
 import java.util.Calendar;
 import java.util.Timer;
@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getRecordPermission();
+        RecordInfo.getInstance();
 
         //setAlarm();
 
@@ -89,20 +89,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void initializePlayerAndStartRecording() {
-        Thread recordInBackGround = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final SoundMeter soundMeter = new SoundMeter();
-                soundMeter.start();
-                new Timer().scheduleAtFixedRate(new TimerTask() {
-                    @Override
-                    public void run() {
-                        //System.out.println(soundMeter.getAmplitude());
-                    }
-                }, 0, 100);//put here time 1000 milliseconds=1 second
-            }
-        });
-        recordInBackGround.start();
+        RecordInfo.startRecording();
+        Intent myIntent = new Intent(MainActivity.this, StartRecordingActivity.class);
+        MainActivity.this.startActivity(myIntent);
     }
 
     @Override
@@ -124,9 +113,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void switchToScheduler(View view) {
-        System.out.println("Salut");
         Intent myIntent = new Intent(MainActivity.this, AlarmSchedulerActivity.class);
-        myIntent.putExtra("key", "sal"); //Optional parameters
+        MainActivity.this.startActivity(myIntent);
+    }
+
+    public void startSleepTracking(View view) {
+        getRecordPermission();
+    }
+
+    public void switchToHistory(View view) {
+        Intent myIntent = new Intent(MainActivity.this, HistoryActivity.class);
         MainActivity.this.startActivity(myIntent);
     }
 }

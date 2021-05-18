@@ -28,10 +28,10 @@ public class AlarmSchedulerActivity extends Activity implements AdapterView.OnIt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_scheduler);
         adapter = AlarmAdapter.getInstance(this);
-        if (adapter.getCount() == 0)
-            for (int i = 0; i < 10; i++) {
-                adapter.add(new Alarm("Trezirea lepra", 12, 24, true));
-            }
+//        if (adapter.getCount() == 0)
+//            for (int i = 0; i < 10; i++) {
+//                adapter.add(new Alarm("Trezirea lepra", 12, 24, true));
+//            }
 
         listView = findViewById(R.id.list_view);
         listView.setAdapter(adapter);

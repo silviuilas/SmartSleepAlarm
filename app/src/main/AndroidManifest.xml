@@ -20,6 +20,8 @@
         </activity>
         <activity android:name=".activities.AlarmSchedulerActivity"/>
         <activity android:name=".activities.AlarmCreateActivity"/>
+        <activity android:name=".activities.StartRecordingActivity"/>
+        <activity android:name=".activities.HistoryActivity"/>
         <receiver android:name="AlarmReceiver">
             <intent-filter>
                 <action android:name="com.example.helloandroid.alarms" />

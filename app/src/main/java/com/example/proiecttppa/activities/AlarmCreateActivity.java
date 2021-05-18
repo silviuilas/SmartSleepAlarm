@@ -50,7 +50,7 @@ public class AlarmCreateActivity extends FragmentActivity {
         EditText selectedName = findViewById(R.id.alarm_name);
         String selectedNameText = selectedName.getText().toString();
         if (selectedNameText.equals(""))
-            selectedNameText = "No name";
+            selectedNameText = "Default name";
         if (hour == -1 || minute == -1) {
             return;
         }

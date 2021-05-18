@@ -20,6 +20,7 @@ import com.example.proiecttppa.models.Alarm;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Random;
 
 public class AlarmAdapter extends ArrayAdapter<Alarm> {
     private static AlarmAdapter mInstance;
@@ -59,9 +60,9 @@ public class AlarmAdapter extends ArrayAdapter<Alarm> {
         onOfSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 getItem(position).isActive = isChecked;
-                if(isChecked){
+                if (isChecked) {
                     enableAlarm(position);
-                }else{
+                } else {
                     disableAlarm(position);
                 }
             }
@@ -98,19 +99,40 @@ public class AlarmAdapter extends ArrayAdapter<Alarm> {
     }
 
     private void createAlarm(@Nullable Alarm object) {
+        System.out.println("Is it today? : " + checkIfTheAlarmItsToday(object));
         Calendar cal = Calendar.getInstance();
-
+//        if (!checkIfTheAlarmItsToday(object))
+//            cal.add(Calendar.DAY_OF_YEAR, 1);
         cal.set(Calendar.HOUR_OF_DAY, object.hour);
         cal.set(Calendar.MINUTE, object.minute);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
 
         Intent intent = new Intent(getContext(), AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent, 0);
+        intent.removeExtra("hour");
+        intent.removeExtra("minute");
+        intent.removeExtra("name");
+
+        intent.putExtra("hour", String.valueOf(object.hour));
+        intent.putExtra("minute", String.valueOf(object.minute));
+        intent.putExtra("name", String.valueOf(object.name));
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), new Random().nextInt(), intent, 0);
         pendingIntents.add(pendingIntent);
         calendars.add(cal);
-        if(object.isActive)
+        if (object.isActive)
             enableAlarm(getPosition(object));
+    }
+
+    boolean checkIfTheAlarmItsToday(Alarm alarm) {
+        Calendar rightNow = Calendar.getInstance();
+        int current_hour = rightNow.get(Calendar.HOUR_OF_DAY); // return the hour in 24 hrs format (ranging from 0-23)
+        int current_minute = rightNow.get(Calendar.MINUTE);
+        if (current_hour < alarm.hour)
+            return true;
+        if (current_hour == alarm.hour)
+            if (current_minute < alarm.minute)
+                return true;
+        return false;
     }
 
     private void removeAlarm(@Nullable Alarm object) {
@@ -120,13 +142,23 @@ public class AlarmAdapter extends ArrayAdapter<Alarm> {
         calendars.remove(position);
     }
 
+    private void disableAlarm(Alarm alarm) {
+        disableAlarm(getPosition(alarm));
+    }
 
-    private void disableAlarm(int position) {
+    public void disableAlarm(int position) {
         alarmManager.cancel(pendingIntents.get(position));
     }
 
-    private void enableAlarm(int position) {
+    private void enableAlarm(Alarm alarm) {
+        disableAlarm(getPosition(alarm));
+    }
+
+    public void enableAlarm(int position) {
         Calendar cal = calendars.get(position);
+        cal.set(Calendar.DAY_OF_YEAR, Calendar.getInstance().get(Calendar.DAY_OF_YEAR));
+        if (!checkIfTheAlarmItsToday(getItem(position)))
+            cal.add(Calendar.DAY_OF_YEAR, 1);
         PendingIntent pendingIntent = pendingIntents.get(position);
         alarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
     }
