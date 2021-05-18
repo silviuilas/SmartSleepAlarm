@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getRecordPermission();
 
-        setAlarm();
+        //setAlarm();
 
         final PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
         new Timer().scheduleAtFixedRate(new TimerTask() {

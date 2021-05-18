@@ -27,12 +27,13 @@ public class AlarmSchedulerActivity extends Activity implements AdapterView.OnIt
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_scheduler);
-        for (int i = 0; i < 10; i++) {
-            alarmArrayList.add(new Alarm("Trezirea iubiri", "12:24", true));
-        }
+        adapter = AlarmAdapter.getInstance(this);
+        if (adapter.getCount() == 0)
+            for (int i = 0; i < 10; i++) {
+                adapter.add(new Alarm("Trezirea lepra", 12, 24, true));
+            }
 
         listView = findViewById(R.id.list_view);
-        adapter = new AlarmAdapter(this, alarmArrayList);
         listView.setAdapter(adapter);
     }
 
@@ -62,7 +63,8 @@ public class AlarmSchedulerActivity extends Activity implements AdapterView.OnIt
                 String hour = data.getStringExtra("hour");
                 String minute = data.getStringExtra("minute");
                 String name = data.getStringExtra("name");
-                System.out.println("Scheduler received " + hour + ":" + minute + " with name "+name);
+                adapter.add(new Alarm(name, Integer.parseInt(hour), Integer.parseInt(minute), true));
+                System.out.println("Scheduler received " + hour + ":" + minute + " with name " + name);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 // Write your code if there's no result
