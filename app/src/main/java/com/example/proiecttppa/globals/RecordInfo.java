@@ -1,5 +1,6 @@
-package com.example.proiecttppa;
+package com.example.proiecttppa.globals;
 
+import com.example.proiecttppa.SoundMeter;
 import com.example.proiecttppa.models.Report;
 
 import java.util.Calendar;
@@ -8,10 +9,10 @@ import java.util.TimerTask;
 
 public class RecordInfo {
     private static RecordInfo mInstance = new RecordInfo();
-    private static Timer timer = new Timer();
-    final static SoundMeter soundMeter = new SoundMeter();
-    private static Report report;
-
+    private Timer timer = new Timer();
+    final SoundMeter soundMeter = new SoundMeter();
+    private Report report;
+    private MovementDetector movementDetector = MovementDetector.getInstance();
 
     protected RecordInfo() {
     }
@@ -23,7 +24,8 @@ public class RecordInfo {
         return mInstance;
     }
 
-    public static void startRecording() {
+    public void startRecording() {
+        movementDetector.start();
         report = new Report();
         timer = new Timer();
         report.setStartTime(Calendar.getInstance());
@@ -37,13 +39,14 @@ public class RecordInfo {
         }, 0, 100);//put here time 1000 milliseconds=1 second
     }
 
-    public static void stopRecording() {
+    public void stopRecording() {
+        movementDetector.stop();
         soundMeter.stop();
         timer.cancel();
         report.setEndTime(Calendar.getInstance());
     }
 
-    public static Report getReport() {
+    public Report getReport() {
         return report;
     }
 }

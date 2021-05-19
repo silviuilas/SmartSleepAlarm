@@ -7,8 +7,8 @@ import android.view.View;
 import androidx.annotation.Nullable;
 
 import com.example.proiecttppa.R;
-import com.example.proiecttppa.RecordInfo;
-import com.example.proiecttppa.SleepRecordsAdapter;
+import com.example.proiecttppa.globals.RecordInfo;
+import com.example.proiecttppa.adapters.SleepRecordsAdapter;
 
 public class StartRecordingActivity extends Activity {
     @Override
@@ -18,12 +18,12 @@ public class StartRecordingActivity extends Activity {
     }
 
     public void stopRecording(View view) {
-        RecordInfo.stopRecording();
+        RecordInfo.getInstance().stopRecording();
         generateRecord();
         finish();
     }
 
     private void generateRecord() {
-        SleepRecordsAdapter.getInstance(this).add(RecordInfo.getReport());
+        SleepRecordsAdapter.getInstance(this).add(RecordInfo.getInstance().getReport());
     }
 }

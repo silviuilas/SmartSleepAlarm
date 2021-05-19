@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.proiecttppa.CustomAlarm;
+import com.example.proiecttppa.globals.CustomAlarm;
 import com.example.proiecttppa.R;
 
 public class AlarmActivity extends Activity {

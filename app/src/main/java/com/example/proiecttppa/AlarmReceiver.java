@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.example.proiecttppa.activities.AlarmActivity;
+import com.example.proiecttppa.adapters.AlarmAdapter;
+import com.example.proiecttppa.globals.CustomAlarm;
 import com.example.proiecttppa.models.Alarm;
 
 

@@ -1,10 +1,13 @@
 package com.example.proiecttppa.models;
 
+import android.util.Pair;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
 public class Report {
     private ArrayList<Double> SoundILevelsInfo = new ArrayList<>();
+    private ArrayList<Pair<Calendar, Double>> MovementLevelsInfo = new ArrayList<>();
     private Calendar startTime;
     private Calendar endTime;
 
@@ -18,6 +21,10 @@ public class Report {
 
     public ArrayList<Double> getSoundILevelsInfo() {
         return SoundILevelsInfo;
+    }
+
+    public ArrayList<Pair<Calendar, Double>> getMovementLevelsInfo() {
+        return MovementLevelsInfo;
     }
 
     public Calendar getStartTime() {

@@ -1,6 +1,7 @@
-package com.example.proiecttppa;
+package com.example.proiecttppa.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.proiecttppa.R;
+import com.example.proiecttppa.activities.RecordPageActivity;
 import com.example.proiecttppa.models.Report;
 
 import java.text.SimpleDateFormat;
@@ -55,13 +58,27 @@ public class SleepRecordsAdapter extends ArrayAdapter<Report> {
 
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        String stringDate = dateFormat.format(report.getStartTime().getTime());
+        final String stringDate = dateFormat.format(report.getStartTime().getTime());
         SimpleDateFormat hourMinuteFormat = new SimpleDateFormat("K:mm a");
-        String stringFrom = hourMinuteFormat.format(report.getStartTime().getTime());
-        String stringTo = hourMinuteFormat.format(report.getEndTime().getTime());
+        final String stringFrom = hourMinuteFormat.format(report.getStartTime().getTime());
+        final String stringTo = hourMinuteFormat.format(report.getEndTime().getTime());
         reportDate.setText(stringDate);
         reportFrom.setText(stringFrom);
         reportTo.setText(stringTo);
+
+        ImageButton moreInfoBtn = convertView.findViewById(R.id.moreInfo);
+        moreInfoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //do something
+                Intent myIntent = new Intent(getContext(), RecordPageActivity.class);
+                myIntent.putExtra("date", stringDate);
+                myIntent.putExtra("from", stringFrom);
+                myIntent.putExtra("to", stringTo);
+                myIntent.putExtra("position", position);
+                getContext().startActivity(myIntent);
+            }
+        });
         return convertView;
     }
 

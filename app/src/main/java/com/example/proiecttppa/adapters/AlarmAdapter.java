@@ -1,4 +1,4 @@
-package com.example.proiecttppa;
+package com.example.proiecttppa.adapters;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -16,6 +16,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.proiecttppa.AlarmReceiver;
+import com.example.proiecttppa.R;
 import com.example.proiecttppa.models.Alarm;
 
 import java.util.ArrayList;

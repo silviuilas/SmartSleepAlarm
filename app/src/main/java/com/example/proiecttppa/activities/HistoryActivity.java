@@ -7,10 +7,7 @@ import android.widget.ListView;
 import androidx.annotation.Nullable;
 
 import com.example.proiecttppa.R;
-import com.example.proiecttppa.SleepRecordsAdapter;
-import com.example.proiecttppa.models.Report;
-
-import java.util.Calendar;
+import com.example.proiecttppa.adapters.SleepRecordsAdapter;
 
 public class HistoryActivity extends Activity {
     ListView listView;

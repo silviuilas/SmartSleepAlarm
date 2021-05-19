@@ -1,4 +1,4 @@
-package com.example.proiecttppa;
+package com.example.proiecttppa.globals;
 
 import android.media.Ringtone;
 

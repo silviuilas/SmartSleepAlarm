@@ -6,9 +6,12 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,8 +19,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.proiecttppa.AlarmReceiver;
+import com.example.proiecttppa.globals.GlobalData;
+import com.example.proiecttppa.globals.MovementDetector;
 import com.example.proiecttppa.R;
-import com.example.proiecttppa.RecordInfo;
+import com.example.proiecttppa.globals.RecordInfo;
 
 import java.util.Calendar;
 import java.util.Timer;
@@ -30,7 +35,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        GlobalData.getInstance().setContext(this);
         RecordInfo.getInstance();
+        MovementDetector.getInstance();
 
         //setAlarm();
 
@@ -89,9 +96,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void initializePlayerAndStartRecording() {
-        RecordInfo.startRecording();
+        RecordInfo.getInstance().startRecording();
         Intent myIntent = new Intent(MainActivity.this, StartRecordingActivity.class);
         MainActivity.this.startActivity(myIntent);
+        MovementDetector.getInstance().addListener(new MovementDetector.Listener() {
+            @Override
+            public void onMotionDetected(SensorEvent event, double acceleration) {
+                if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+                    Log.d("TAG", String.valueOf(acceleration));
+                }
+            }
+        });
     }
 
     @Override

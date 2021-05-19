@@ -10,7 +10,7 @@ import android.widget.ListView;
 
 import androidx.annotation.Nullable;
 
-import com.example.proiecttppa.AlarmAdapter;
+import com.example.proiecttppa.adapters.AlarmAdapter;
 import com.example.proiecttppa.R;
 import com.example.proiecttppa.models.Alarm;
 
