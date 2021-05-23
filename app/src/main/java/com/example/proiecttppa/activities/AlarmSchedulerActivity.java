@@ -10,8 +10,8 @@ import android.widget.ListView;
 
 import androidx.annotation.Nullable;
 
-import com.example.proiecttppa.adapters.AlarmAdapter;
 import com.example.proiecttppa.R;
+import com.example.proiecttppa.adapters.AlarmAdapter;
 import com.example.proiecttppa.models.Alarm;
 
 import java.util.ArrayList;
@@ -27,11 +27,7 @@ public class AlarmSchedulerActivity extends Activity implements AdapterView.OnIt
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_scheduler);
-        adapter = AlarmAdapter.getInstance(this);
-//        if (adapter.getCount() == 0)
-//            for (int i = 0; i < 10; i++) {
-//                adapter.add(new Alarm("Trezirea lepra", 12, 24, true));
-//            }
+        adapter = AlarmAdapter.getInstance();
 
         listView = findViewById(R.id.list_view);
         listView.setAdapter(adapter);
@@ -63,7 +59,7 @@ public class AlarmSchedulerActivity extends Activity implements AdapterView.OnIt
                 String hour = data.getStringExtra("hour");
                 String minute = data.getStringExtra("minute");
                 String name = data.getStringExtra("name");
-                adapter.add(new Alarm(name, Integer.parseInt(hour), Integer.parseInt(minute), true));
+                adapter.add(new Alarm(name, Integer.parseInt(hour), Integer.parseInt(minute), true, true));
                 System.out.println("Scheduler received " + hour + ":" + minute + " with name " + name);
             }
             if (resultCode == Activity.RESULT_CANCELED) {

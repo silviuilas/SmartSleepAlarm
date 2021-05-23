@@ -1,4 +1,4 @@
-package com.example.proiecttppa.globals;
+package com.example.proiecttppa.helpers;
 
 
 // Credits to https://stackoverflow.com/questions/14574879/how-to-detect-movement-of-an-android-device
@@ -11,6 +11,10 @@ import android.hardware.SensorManager;
 import android.util.Log;
 import android.util.Pair;
 
+import com.example.proiecttppa.globals.GlobalData;
+import com.example.proiecttppa.models.Report;
+
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
@@ -21,25 +25,21 @@ public class MovementDetector implements SensorEventListener {
 
     private SensorManager sensorMan;
     private Sensor accelerometer;
+    private Report report;
 
-    private MovementDetector() {
+
+    public MovementDetector(Report report1) {
+        init();
+        report = report1;
     }
 
-    private static MovementDetector mInstance;
-
-    public static MovementDetector getInstance() {
-        if (mInstance == null) {
-            mInstance = new MovementDetector();
-            mInstance.init();
-        }
-        return mInstance;
-    }
 
     //////////////////////
     private HashSet<Listener> mListeners = new HashSet<>();
 
     private void init() {
         sensorMan = (SensorManager) GlobalData.getInstance().getContext().getSystemService(Context.SENSOR_SERVICE);
+        sensorMan.unregisterListener(this);
         accelerometer = sensorMan.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mAccel = 0.00f;
         mAccelCurrent = SensorManager.GRAVITY_EARTH;
@@ -95,8 +95,8 @@ public class MovementDetector implements SensorEventListener {
                 hitResult = hitSum / SAMPLE_SIZE;
 
                 Log.d(TAG, "The value is " + String.valueOf(hitResult));
-                List<Pair<Calendar, Double>> MovementLevelsInfo = RecordInfo.getInstance().getReport().getMovementLevelsInfo();
-                MovementLevelsInfo.add(new Pair(Calendar.getInstance(), hitResult));
+  ;
+                report.getMovementLevelsInfo().add(new Pair(Calendar.getInstance(), hitResult));
                 if (hitResult > THRESHOLD) {
                     //Log.d(TAG, "Walking");
                 } else {

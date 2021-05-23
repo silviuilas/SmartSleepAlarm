@@ -6,12 +6,9 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.SystemClock;
-import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,9 +17,7 @@ import androidx.core.content.ContextCompat;
 
 import com.example.proiecttppa.AlarmReceiver;
 import com.example.proiecttppa.globals.GlobalData;
-import com.example.proiecttppa.globals.MovementDetector;
 import com.example.proiecttppa.R;
-import com.example.proiecttppa.globals.RecordInfo;
 
 import java.util.Calendar;
 import java.util.Timer;
@@ -36,8 +31,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         GlobalData.getInstance().setContext(this);
-        RecordInfo.getInstance();
-        MovementDetector.getInstance();
 
         //setAlarm();
 
@@ -54,33 +47,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 0, 1000);
 
-        //startService(new Intent(this, MicrophoneMonitorService.class));
-    }
-
-    public void setAlarm() {
-        AlarmManager alarmMgr;
-        PendingIntent alarmIntent;
-        alarmMgr = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, AlarmReceiver.class);
-        alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-
-        alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                SystemClock.elapsedRealtime() +
-                        10 * 1000, alarmIntent);
-    }
-
-    public void setAlarm2() {
-        Calendar cal = Calendar.getInstance();
-
-        cal.set(Calendar.HOUR_OF_DAY, 12);
-        cal.set(Calendar.MINUTE, 38);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
     }
 
     public void getRecordPermission() {
@@ -96,17 +62,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void initializePlayerAndStartRecording() {
-        RecordInfo.getInstance().startRecording();
         Intent myIntent = new Intent(MainActivity.this, StartRecordingActivity.class);
         MainActivity.this.startActivity(myIntent);
-        MovementDetector.getInstance().addListener(new MovementDetector.Listener() {
-            @Override
-            public void onMotionDetected(SensorEvent event, double acceleration) {
-                if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-                    Log.d("TAG", String.valueOf(acceleration));
-                }
-            }
-        });
     }
 
     @Override

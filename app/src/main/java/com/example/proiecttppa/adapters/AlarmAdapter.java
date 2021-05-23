@@ -18,6 +18,8 @@ import androidx.annotation.Nullable;
 
 import com.example.proiecttppa.AlarmReceiver;
 import com.example.proiecttppa.R;
+import com.example.proiecttppa.globals.GlobalData;
+import com.example.proiecttppa.helpers.TinyDB;
 import com.example.proiecttppa.models.Alarm;
 
 import java.util.ArrayList;
@@ -26,24 +28,27 @@ import java.util.Random;
 
 public class AlarmAdapter extends ArrayAdapter<Alarm> {
     private static AlarmAdapter mInstance;
-    private static ArrayList<Alarm> alarms;
-    private static ArrayList<PendingIntent> pendingIntents;
-    private static ArrayList<Calendar> calendars;
-    private static AlarmManager alarmManager;
+    private TinyDB tinydb;
+    private ArrayList<PendingIntent> pendingIntents;
+    private ArrayList<Calendar> calendars;
+    private AlarmManager alarmManager;
+    private boolean isLoading;
 
 
-    protected AlarmAdapter(Context context1) {
-        super(context1, 0, alarms);
+    protected AlarmAdapter() {
+        super(GlobalData.getInstance().getContext(), 0, new ArrayList<Alarm>());
         alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+        tinydb = new TinyDB(getContext());
+        pendingIntents = new ArrayList<>();
+        calendars = new ArrayList<>();
+        loadFromMemory();
     }
 
 
-    public static synchronized AlarmAdapter getInstance(Context context1) {
+    public static synchronized AlarmAdapter getInstance() {
         if (null == mInstance) {
-            alarms = new ArrayList<>();
-            pendingIntents = new ArrayList<>();
-            calendars = new ArrayList<>();
-            mInstance = new AlarmAdapter(context1);
+
+            mInstance = new AlarmAdapter();
         }
         return mInstance;
     }
@@ -67,6 +72,15 @@ public class AlarmAdapter extends ArrayAdapter<Alarm> {
                 } else {
                     disableAlarm(position);
                 }
+                saveToMemory();
+            }
+        });
+
+        Switch smartAlarmSwitch = convertView.findViewById(R.id.smartAlarmId);
+        smartAlarmSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                getItem(position).isSmartAlarm = isChecked;
+                saveToMemory();
             }
         });
         //Handle buttons and add onClickListeners
@@ -85,7 +99,50 @@ public class AlarmAdapter extends ArrayAdapter<Alarm> {
         firstRow.setText(alarm.name);
         secondRow.setText(alarm.hour + ":" + alarm.minute);
         onOfSwitch.setChecked(alarm.isActive);
+        smartAlarmSwitch.setChecked(alarm.isSmartAlarm);
         return convertView;
+    }
+
+
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+        saveToMemory();
+    }
+
+    @Override
+    public void setNotifyOnChange(boolean notifyOnChange) {
+        super.setNotifyOnChange(notifyOnChange);
+        saveToMemory();
+    }
+
+    @Override
+    public void notifyDataSetInvalidated() {
+        super.notifyDataSetInvalidated();
+        saveToMemory();
+    }
+
+    public void saveToMemory() {
+        if(!isLoading) {
+            int count = this.getCount();
+            ArrayList<Object> alarmArrayList = new ArrayList<>();
+            for (int i = 0; i < count; i++) {
+                alarmArrayList.add(this.getItem(i));
+            }
+            tinydb.putListObject("Alarms", alarmArrayList);
+        }
+    }
+
+    private ArrayList<Alarm> loadFromMemory() {
+        isLoading = true;
+        ArrayList<Object> objects = tinydb.getListObject("Alarms", Alarm.class);
+        ArrayList<Alarm> alarms = new ArrayList<>();
+        for (Object obj :
+                objects) {
+            this.add((Alarm) obj);
+        }
+        isLoading = false;
+        return alarms;
     }
 
     @Override
@@ -111,10 +168,6 @@ public class AlarmAdapter extends ArrayAdapter<Alarm> {
         cal.set(Calendar.MILLISECOND, 0);
 
         Intent intent = new Intent(getContext(), AlarmReceiver.class);
-        intent.removeExtra("hour");
-        intent.removeExtra("minute");
-        intent.removeExtra("name");
-
         intent.putExtra("hour", String.valueOf(object.hour));
         intent.putExtra("minute", String.valueOf(object.minute));
         intent.putExtra("name", String.valueOf(object.name));
@@ -163,5 +216,9 @@ public class AlarmAdapter extends ArrayAdapter<Alarm> {
             cal.add(Calendar.DAY_OF_YEAR, 1);
         PendingIntent pendingIntent = pendingIntents.get(position);
         alarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
+    }
+
+    public ArrayList<PendingIntent> getPendingIntents() {
+        return pendingIntents;
     }
 }

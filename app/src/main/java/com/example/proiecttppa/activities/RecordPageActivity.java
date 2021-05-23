@@ -67,8 +67,9 @@ public class RecordPageActivity extends Activity {
             long diff = endTime - startTime;
             int size = arrayList.size();
             long x = startTime;
+            double step = diff / (size - 1);
             for (int i = 0; i < size; i++) {
-                x += diff / size;
+                x += step;
                 double y = arrayList.get(i);
                 soundSeries.appendData(new DataPoint(x, y), true, size);
             }

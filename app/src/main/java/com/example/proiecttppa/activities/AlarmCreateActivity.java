@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.proiecttppa.R;
-import com.example.proiecttppa.TimePickerFragment;
+import com.example.proiecttppa.helpers.TimePickerFragment;
 import com.example.proiecttppa.interfaces.CustomDialogInterface;
 
 public class AlarmCreateActivity extends FragmentActivity {

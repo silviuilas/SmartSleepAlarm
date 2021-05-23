@@ -7,23 +7,21 @@ import android.view.View;
 import androidx.annotation.Nullable;
 
 import com.example.proiecttppa.R;
-import com.example.proiecttppa.globals.RecordInfo;
-import com.example.proiecttppa.adapters.SleepRecordsAdapter;
+import com.example.proiecttppa.globals.GlobalData;
+import com.example.proiecttppa.helpers.RecordInfo;
 
 public class StartRecordingActivity extends Activity {
+    RecordInfo recordInfo = GlobalData.getInstance().getRecordInfo();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_recording);
+        recordInfo.startRecording();
     }
 
     public void stopRecording(View view) {
-        RecordInfo.getInstance().stopRecording();
-        generateRecord();
+        recordInfo.stopRecording();
         finish();
-    }
-
-    private void generateRecord() {
-        SleepRecordsAdapter.getInstance(this).add(RecordInfo.getInstance().getReport());
     }
 }

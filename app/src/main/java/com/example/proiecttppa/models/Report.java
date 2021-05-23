@@ -5,7 +5,7 @@ import android.util.Pair;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class Report {
+public class Report extends Object{
     private ArrayList<Double> SoundILevelsInfo = new ArrayList<>();
     private ArrayList<Pair<Calendar, Double>> MovementLevelsInfo = new ArrayList<>();
     private Calendar startTime;
@@ -42,4 +42,5 @@ public class Report {
     public void setEndTime(Calendar endTime) {
         this.endTime = endTime;
     }
+
 }
